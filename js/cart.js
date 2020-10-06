@@ -55,5 +55,36 @@ window.addEventListener("click", function (event) {
       cartWrapper.insertAdjacentHTML("beforeend", cartItemHTML);
     }
     card.querySelector("[data-counter]").innerText = "1";
+
+    toggleCartStatus();
   }
 });
+
+function toggleCartStatus() {
+  const cartEmpty = document.querySelector("[data-cart-empty]");
+  const cartTotal = document.querySelector(".cart-total");
+  const orderForm = document.querySelector("#order-form");
+
+  if (cartWrapper.querySelectorAll(".cart-item").length > 0) {
+    cartEmpty.classList.add("none");
+    cartTotal.classList.remove("none");
+    orderForm.classList.remove("none");
+  } else {
+    cartEmpty.classList.remove("none");
+    cartTotal.classList.add("none");
+    orderForm.classList.add("none");
+  }
+
+  //total price in cart
+  let totalPrice = 0;
+
+  cartWrapper.querySelectorAll(".cart-item").forEach(function (item) {
+    const counter = item.querySelector("[data-counter]").innerText;
+    const priceOneItem = item.querySelector(".price__currency").innerText;
+    const price = parseInt(counter) * parseInt(priceOneItem);
+    totalPrice += price;
+  });
+
+  console.log(totalPrice);
+  cartTotal.querySelector(".total-price").innerText = totalPrice;
+}
