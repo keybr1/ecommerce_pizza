@@ -65,6 +65,7 @@ function toggleCartStatus() {
   const cartEmpty = document.querySelector("[data-cart-empty]");
   const cartTotal = document.querySelector(".cart-total");
   const orderForm = document.querySelector("#order-form");
+  const deliveryCost = cartTotal.querySelector(".delivery-cost");
 
   if (cartWrapper.querySelectorAll(".cart-item").length > 0) {
     cartEmpty.classList.add("none");
@@ -85,6 +86,18 @@ function toggleCartStatus() {
     const price = parseInt(counter) * parseInt(priceOneItem);
     totalPrice += price;
   });
+  const totalPriceElement = cartTotal.querySelector(".total-price");
+  totalPriceElement.innerText = totalPrice;
+  const deliveryCostElem = cartTotal.querySelector(".delivery-cost");
 
-  cartTotal.querySelector(".total-price").innerText = totalPrice;
+  if (totalPrice < 1000) {
+    deliveryCost.classList.remove("free");
+    deliveryCost.classList.add("notfree");
+    deliveryCostElem.innerText = "300 ₽";
+    totalPriceElement.innerText = totalPrice + 300;
+  } else {
+    deliveryCost.classList.remove("notfree");
+    deliveryCost.classList.add("free");
+    deliveryCostElem.innerText = "бесплатно";
+  }
 }
